@@ -10,24 +10,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
+  String _email = '';
 
   final List<Todo> todos = [
     const Todo(
-      title: 'Buy milk', 
-      description: 'There is no milk left in the fridge!',
-      priority: Priority.high
-    ),
+        title: 'Buy milk',
+        description: 'There is no milk left in the fridge!',
+        priority: Priority.high),
     const Todo(
-      title: 'Make the bed', 
-      description: 'Keep things tidy please..',
-      priority: Priority.low
-    ),
+        title: 'Make the bed',
+        description: 'Keep things tidy please..',
+        priority: Priority.low),
     const Todo(
-      title: 'Pay bills', 
-      description: 'The gas bill needs paying ASAP.',
-      priority: Priority.urgent
-    ),
+        title: 'Pay bills',
+        description: 'The gas bill needs paying ASAP.',
+        priority: Priority.urgent),
   ];
 
   @override
@@ -43,9 +40,17 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Expanded(child: TodoList(todos: todos)),
-        
+
             // form stuff below here
-            
+            TextField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                labelText: 'Email address',
+              ),
+              onChanged: (value) => setState(() => _email = value),
+            ),
+            const SizedBox(height: 20),
+            Text('Your email is: $_email'),
           ],
         ),
       ),
