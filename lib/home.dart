@@ -48,8 +48,34 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   // todo title
+                  TextFormField(
+                    maxLength: 20,
+                    decoration: const InputDecoration(
+                      label: Text('Todo title'),
+                    ),
+                    validator: (value) {
+                      // isEmpty means ''. Any blank space(s) (' ') is not empty.
+                      if (value == null || value.isEmpty) {
+                        return 'You must enter a value for the title';
+                      }
+                      return null;
+                    },
+                  ),
 
                   // todo description
+                  TextFormField(
+                    maxLength: 40,
+                    decoration: const InputDecoration(
+                      label: Text('Todo title'),
+                    ),
+                    validator: (value) {
+                      // isEmpty means ''. Any blank space(s) (' ') is not empty.
+                      if (value == null || value.isEmpty || value.length < 5) {
+                        return 'Enter a description as least 5 characters long';
+                      }
+                      return null;
+                    },
+                  ),
 
                   // todo priority
 
@@ -57,7 +83,7 @@ class _HomeState extends State<Home> {
                   const SizedBox(height: 20),
                   FilledButton(
                     onPressed: () {
-                      // submit the form
+                      _formGlobalKey.currentState!.validate();
                     },
                     style: FilledButton.styleFrom(
                       backgroundColor: Colors.grey[800],
