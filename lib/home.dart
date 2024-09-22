@@ -125,6 +125,12 @@ class _HomeState extends State<Home> {
                           // Looks like no immutable necessary here
                           todos.add(newTodo);
                         });
+
+                        // This reset method is not dependent on initial values of _title and _description.
+                        // It just resets the form fields to empty.
+                        _formGlobalKey.currentState!.reset();
+
+                        _selectedPriority = Priority.low;
                       }
                     },
                     style: FilledButton.styleFrom(
