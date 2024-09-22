@@ -11,7 +11,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _formGlobalKey = GlobalKey<FormState>();
+
   Priority _selectedPriority = Priority.low;
+  String _title = '';
+  String _description = '';
 
   final List<Todo> todos = [
     const Todo(
@@ -61,13 +64,17 @@ class _HomeState extends State<Home> {
                       }
                       return null;
                     },
+                    onSaved: (value) {
+                      _title =
+                          value!; // value is never null thanks to the validator
+                    },
                   ),
 
                   // todo description
                   TextFormField(
                     maxLength: 40,
                     decoration: const InputDecoration(
-                      label: Text('Todo title'),
+                      label: Text('Todo description'),
                     ),
                     validator: (value) {
                       // isEmpty means ''. Any blank space(s) (' ') is not empty.
@@ -75,6 +82,10 @@ class _HomeState extends State<Home> {
                         return 'Enter a description as least 5 characters long';
                       }
                       return null;
+                    },
+                    onSaved: (value) {
+                      _description =
+                          value!; // value is never null thanks to the validator
                     },
                   ),
 
@@ -101,7 +112,20 @@ class _HomeState extends State<Home> {
                   const SizedBox(height: 20),
                   FilledButton(
                     onPressed: () {
-                      _formGlobalKey.currentState!.validate();
+                      if (_formGlobalKey.currentState!.validate()) {
+                        _formGlobalKey.currentState!.save();
+
+                        final newTodo = Todo(
+                          title: _title,
+                          description: _description,
+                          priority: _selectedPriority,
+                        );
+
+                        setState(() {
+                          // Looks like no immutable necessary here
+                          todos.add(newTodo);
+                        });
+                      }
                     },
                     style: FilledButton.styleFrom(
                       backgroundColor: Colors.grey[800],
